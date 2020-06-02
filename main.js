@@ -1,43 +1,38 @@
 let popupPlace = document.querySelector('#pop-up')
 let createBookButton = document.querySelector('#open-popup-button')
 let bookListPlace = document.querySelector('#list')
+let date = new Date()
+let currentDate = `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`
 let booksArr = []
-// let book = {
-//     title: '',
-//     author: '',
-//     friend: '',
-//     until: ''
-// }
+let book = {
+    title: '',
+    author: '',
+    friend: '',
+    until: ''
+}
 
-// let bookTitle = document.querySelector('#title').value
-// let bookAuthor = document.querySelector('#author').value
-// let bookFriend = document.querySelector('#friend').value
-// let bookUntil = document.querySelector('#until').value
-
-let bookId = booksArr.length + 1
-
-let cancelPopup = function () {
+function cancelPopup() {
     popupPlace.removeChild(document.querySelector('.backdrop'))
 }
 
-let createBook = function (title, author, friend, until) {
-    let book = {
-        title: title,
-        author: author,
-        friend: friend,
-        until: until
+function createBook() {
+    book = {
+        title: document.querySelector('#title').value,
+        author: document.querySelector('#author').value,
+        friend: document.querySelector('#friend').value,
+        until: document.querySelector('#until').value
     }
     booksArr.push(book)
 }
 
-let addBook = function () {
-
+function addBook() {
+    createBook()
 
     let div = document.createElement('div')
     div.setAttribute('class', 'container')
     div.innerHTML = `
     <div class="book-id">
-        <p>${bookId}</p>
+        <p>${booksArr.length}</p>
     </div>
     <div class="book-info">
     <div class="title">
@@ -48,12 +43,12 @@ let addBook = function () {
     </div>
     </div>
     <div class="book-lent-info">
-        <div id="edit-button" class="edit-button-container"><button class="edit-button" onclick="editBook()"><i class="fas fa-ellipsis-v"></i></button></div>
+        <div id="edit-button" class="edit-button-container"><button class="edit-button" onclick="editPopup(booksArr.length)"><i class="fas fa-ellipsis-v"></i></button></div>
     <div class="lent">
         <p>${book.friend}</p>
     </div>
     <div class="until">
-        <p>${book.until}</p>
+        <p>${currentDate} - ${book.until}</p>
     </div>
     `
 
@@ -61,7 +56,7 @@ let addBook = function () {
     cancelPopup()
 }
 
-let createPopup = function () {
+function createPopup() {
     let div = document.createElement('div')
     div.setAttribute('class', 'backdrop')
     div.innerHTML = `
@@ -107,12 +102,12 @@ let createPopup = function () {
     document.querySelector('#submit-popup-button').addEventListener('click', addBook)
 }
 
-let editPopup = function () {
+function editPopup(bookIndex) {
     let div = document.createElement('div')
     div.setAttribute('class', 'backdrop')
     div.innerHTML = `
      <form id="edit-pop-up" class="pop-up">
-        <div class="popup-header"><h2>Lending a book away</h2></div>
+        <div class="popup-header"><h2>Editing a book #${bookIndex}</h2></div>
         <div class="popup-main">
             <div class="title-lent">
                 <div class="input">
